@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import ChatList from './ChatList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      messages: []
+    }
+  }
+
+
+  async componentDidMount() {
+
+    setInterval(async () => {
+      const {data} = await axios.get('/api')
+      this.setState({
+        messages: data
+    });
+    }, 2000)
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Meet Swampletics,</h1>
+        <ChatList messages={this.state.messages}/>
+      </div>
+    );
+  }
 }
+
+
 
 export default App;
